@@ -77,32 +77,32 @@ function endConnection() {
 // Get the table by department
 function getDepartment() {
     connection.query("select first_name, last_name,role_id, manager_id, title, salary, department_id, name  FROM role, employee, department where department.id = role.department_id and employee.role_id=role.id;",
-    function (err, data) {
-        if (err) throw err;
-        console.table(data)
-    
-    const department = data.map(department => {
-        return {
-            id: `${department.name}`,
-            value: department.name
-        }
-    })
+        function (err, data) {
+            if (err) throw err;
+            console.table(data)
 
-    inquirer.prompt([{
-            type: "list",
-            name: "departments",
-            message: "Which Department list you want to view?",
-            choices: department
-        
-    }]).then(function (data) {
-    connection.query("select * FROM employee, department where name = '" + data.departments + "';", function (err, data) {
-        if (err) throw err;
-        console.table(data)
-        startApplication();
-    })
+            const department = data.map(department => {
+                return {
+                    id: `${department.name}`,
+                    value: department.name
+                }
+            })
 
-    })
-})
+            inquirer.prompt([{
+                type: "list",
+                name: "departments",
+                message: "Which Department list you want to view?",
+                choices: department
+
+            }]).then(function (data) {
+                connection.query("select * FROM employee, department where name = '" + data.departments + "';", function (err, data) {
+                    if (err) throw err;
+                    console.table(data)
+                    startApplication();
+                })
+
+            })
+        })
 }
 
 function getAll() {
@@ -115,32 +115,32 @@ function getAll() {
 // Get the data by Manager
 function getManager() {
     connection.query("select first_name, last_name,role_id, manager_id, title, salary, department_id, name  FROM role, employee, department where department.id = role.department_id and employee.role_id=role.id;",
-    function (err, data) {
-        if (err) throw err;
-        console.table(data)
-    
-    const manager = data.map(employee => {
-        return {
-            id: `${employee.manager_id}`,
-            value: employee.manager_id
-        }
-    })
+        function (err, data) {
+            if (err) throw err;
+            console.table(data)
 
-    inquirer.prompt([{
-            type: "list",
-            name: "managers",
-            message: "Which Manager list you want to view?",
-            choices: manager
-        
-    }]).then(function (data) {
-    connection.query("select * FROM  employee where manager_id = " + data.managers + ";", function (err, data) {
-        if (err) throw err;
-        console.table(data)
-        startApplication();
-    })
+            const manager = data.map(employee => {
+                return {
+                    id: `${employee.manager_id}`,
+                    value: employee.manager_id
+                }
+            })
 
-    })
-})
+            inquirer.prompt([{
+                type: "list",
+                name: "managers",
+                message: "Which Manager list you want to view?",
+                choices: manager
+
+            }]).then(function (data) {
+                connection.query("select * FROM  employee where manager_id = " + data.managers + ";", function (err, data) {
+                    if (err) throw err;
+                    console.table(data)
+                    startApplication();
+                })
+
+            })
+        })
 }
 
 // Function to remove employee data
@@ -185,12 +185,12 @@ function removeEmployee() {
 };
 // Function to update employee role
 function updateRole() {
-   // connection.query("select first_name, last_name,role_id, manager_id, title, salary, department_id, name  FROM role, employee, department where department.id = role.department_id and employee.role_id=role.id;",
-   connection.query("select * from role" ,   
-   function (err, data) {
+
+    connection.query("select * from role",
+        function (err, data) {
             if (err) throw err;
             console.table(data)
-          
+
 
             const rolesMap = data.map(role => {
                 return {
@@ -198,8 +198,8 @@ function updateRole() {
                     name: role.title
                 }
 
-             })
-            connection.query("select first_name, last_name, id FROM employee", function(err, roles) {
+            })
+            connection.query("select first_name, last_name, id FROM employee", function (err, roles) {
 
                 const names = roles.map(employee => {
                     return {
@@ -208,39 +208,37 @@ function updateRole() {
                     }
                 })
 
-            inquirer.prompt([{
-                    type: "list",
-                    name: "updateRecord",
-                    message: "What data you would like to update?",
-                    choices: names
-                },
-                {
-                    type: "list",
-                    name: "updateRole",
-                    message: "What role you would like to update?",
-                    choices: rolesMap
-                }
-            ]).then(response => {
-                // var roleSelected = response.updateRole
-                // console.log(roleSelected)
-                console.log(response)
+                inquirer.prompt([{
+                        type: "list",
+                        name: "updateRecord",
+                        message: "What data you would like to update?",
+                        choices: names
+                    },
+                    {
+                        type: "list",
+                        name: "updateRole",
+                        message: "What role you would like to update?",
+                        choices: rolesMap
+                    }
+                ]).then(response => {
+                    console.log(response)
 
-                console.log("Updating Employee Role..\n");
-                connection.query(
-                    `UPDATE employee SET role_id =${response.updateRole}
+                    console.log("Updating Employee Role..\n");
+                    connection.query(
+                        `UPDATE employee SET role_id =${response.updateRole}
                      WHERE?`, {
-                        id: (response.updateRecord)
-                    },
+                            id: (response.updateRecord)
+                        },
 
 
-                    function (err, res) {
-                        if (err) throw err;
-                        console.log(res.affectedRows + " Employee Role Updated!\n");
-                        startApplication()
-                    },
-                )
+                        function (err, res) {
+                            if (err) throw err;
+                            console.log(res.affectedRows + " Employee Role Updated!\n");
+                            startApplication()
+                        },
+                    )
+                })
             })
-        })
         })
 }
 // Function to add employee role
