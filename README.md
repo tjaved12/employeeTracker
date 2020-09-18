@@ -62,8 +62,14 @@ We can frame this challenge as follows:
 As a business owner
 I want to be able to view and manage the departments, roles, and employees in my company
 So that I can organize and plan my business
+
 ```
-## Tech Stack:
+## Demo:
+
+![image](https://user-images.githubusercontent.com/66760710/93544804-db385200-f92c-11ea-8692-dd1b73e4cc19.png)
+
+![image](https://user-images.githubusercontent.com/66760710/93544945-3a966200-f92d-11ea-9faa-4c38590f3f7d.png)
+
 
 * Use the [MySQL](https://www.npmjs.com/package/mysql) NPM package to connect to your MySQL database and perform queries.
 
