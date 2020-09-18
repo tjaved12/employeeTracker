@@ -11,6 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "cfonts": "^2.8.6",
         "cli-table": "^0.3.1",
         "console.table": "^0.10.0",
         "inquirer": "^7.3.3",
